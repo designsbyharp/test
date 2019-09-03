@@ -142,7 +142,7 @@ function render(){
     requestAnimationFrame(render);
 
     renderer.render(scene, camera);
-    // camera.rotation.y -= 0.005;
+    tetrahedron.rotation.y -= 0.005;
 
 }
 
