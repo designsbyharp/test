@@ -18,13 +18,12 @@
 
 let scene,
     camera,
+    tetrahedron,
     renderer,
     num = 30, // 30 particles
     objects = [],
     raycaster = new THREE.Raycaster(),
-    mouse = new THREE.Vector2(),
-    light, 
-    tetrahedron;
+    mouse = new THREE.Vector2();
 
 function createCamera(){
 
@@ -60,7 +59,7 @@ function createLight(){
 
 }
 
-function createMaterial(image, shape, metalness, roughness){
+function createMaterial(image, envMapPath, shape, metalness, roughness){
 
     let texture = new THREE.TextureLoader().load(image),
     material;
@@ -68,7 +67,7 @@ function createMaterial(image, shape, metalness, roughness){
     if(shape === "tetrahedron"){
 
         let envMap = new THREE.CubeTextureLoader()
-        .setPath("../assets/images/")
+        .setPath(envMapPath)
         .load(["px.jpg", "nx.jpg", "py.jpg", "ny.jpg",
             "pz.jpg", "nz.jpg"]);
 
@@ -108,7 +107,7 @@ function createGround(){
 function createShape(){
 
     let geometry = new THREE.TetrahedronBufferGeometry(2, 0),
-        material = createMaterial("../assets/images/rock_01_diffusion.jpg", "tetrahedron", 1.0, 0),
+        material = createMaterial("../assets/images/rock_01_diffusion.jpg", "../assets/images/","tetrahedron", 1.0, 0);
         tetrahedron = new THREE.Mesh(geometry, material);
 
     tetrahedron.rotation.x = Math.PI/180 * -10;
@@ -126,10 +125,10 @@ function init(){
     scene = new THREE.Scene();
     
     createCamera();
-    createRenderer();
     createLight();
     createGround();
     createShape();
+    createRenderer();
 
     console.log("from init, tet is: " + tetrahedron); // undefined..
 
@@ -143,6 +142,7 @@ function render(){
 
     renderer.render(scene, camera);
     tetrahedron.rotation.y -= 0.005;
+
 
 }
 
